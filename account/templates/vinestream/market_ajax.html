@@ -1,0 +1,80 @@
+{% load humanize %}
+{% load static %}
+<div id="columns">
+{% for item in all %}
+    
+           {% if item.video %}
+            <figure>
+           
+                <video  id= "packt" controls= "controls" poster="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}" preload="none"><source src="{{ item.video.url }}"></video>
+                 
+            <i class="fa fa-angle-down fa-sm" style='color:white; border:1px solid red;border-radius:20%; background-color:red' data-toggle="modal" data-target="#exampleModalLong_{{ item.id }}"></i>
+            <div class="modal fade" id="exampleModalLong_{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        <a href='{{ item.shop.owner.get_absolute_url }}'><img  class="float-left " src="{% if item.shop.owner.profile.image %}{{ item.shop.logo.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                                          style="width: 50px; height:50px; border-radius: 50%; border:3px solid black"></a> &nbsp;&nbsp;&nbsp;
+
+                            
+
+                             <a href="{{ item.shop.owner.get_absolute_url }}">{{ item.shop }}</a>  <br/>
+                             <p class='text-muted'>
+                                {{ item.shop.shop_address|linebreaks }}
+                             </p>
+                            </a>
+                            <h2 style='align-center'>{% if item.name %}{{ item.name }}{% endif %}</h2><br/>
+            
+                                <img src="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}" alt="avatar" class="avatar"><br/>
+                                {{ item.description|linebreaks|truncatewords:20 }}<br/>
+                                {% if item.price %}₦{{ item.price|intcomma }}{% endif %}<br/>
+               
+			            
+                                
+                                <a href='{{ item.get_absolute_url }}' style='color:grey'><button class='btn btn-outline-danger btn-sm'>see more</button></a>
+                        </div>
+                         
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </figure>
+             
+        {% else %}     
+          
+        <a href='{{ item.get_absolute_url }}'>
+            <figure data-toggle="tooltip" data-placement="top"  title="{{ item.name }}">
+                <img src="{{ item.photo.url }}">
+            </figure>
+        </a>    
+        
+   
+        {% endif %} 
+        
+          {% if item.business_name %} 
+          <a href='{{ item.owner.get_absolute_url }}'>
+            <figure>
+                <img src="{{ item.logo.url }}">
+            </figure>
+            </a>
+         {% endif %}  
+         {% if item.title %} 
+          <a href='{{ item.get_absolute_url }}'>
+            <figure>
+                <img src="{{ item.image.url }}">
+            </figure>
+            </a>
+         {% endif %} 
+    
+{% endfor %}   
+</div>

@@ -1,0 +1,13 @@
+{% load static %}
+
+{% for user in me.following.all %} 
+    {% if user.profile.image %}
+        <a href='{{ user.get_absolute_url }}'><img src="{{ user.profile.image.url }}" style="height:50px; width:50px; border-radius:50%;"></a>
+    {% else %}
+         <a href='{{ user.get_absolute_url }}'><img src="{% static 'img/no_image.png' %}" style="height:50px; width:50px; border-radius:50%"></a>
+    {% endif %}
+{% empty %}
+    You have no friends yet.    
+{% endfor %}
+<br/><br/><br/><br/><br/>
+

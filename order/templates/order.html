@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load paystack %}
+
+{% load static %}
+
+{%  block title %}
+    {{ request.user.username }}
+{% endblock %}
+
+{% block style %}href="{% static 'css/order.css' %}"{% endblock %}
+
+{% block content %}
+    <h1>Checkout</h1>
+            <div class="order-info">
+                <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your order</h3>
+                    <ul>
+                        
+                                        
+                            <li>
+                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;{{ quantity }}x {{ product.name }}
+                                <span>₦{{ product.price|intcomma }}</span>
+                            </li>
+                            
+                        
+                    </ul>
+                    <p>Delivery fee: ₦100</P><br/>
+                <p>Total: ₦{{ product.price|intcomma }}</p>
+                
+            </div>
+
+            <form action="." method="post" class="order-form mx-5">
+            <br>
+                {{ form.as_p }}
+                <p><input type="submit" value="Place order"></p> 
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
+                
+                {% csrf_token %}
+            </form>
+             
+{% endblock %}

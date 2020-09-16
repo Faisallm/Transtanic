@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block title %}{{ user.username }}/{{ other_user.username }}{% endblock %}
+
+{% block style %}href="{% static "css/chatcom.css" %}"{% endblock %}
+
+{% block content %}
+    <br/>
+    
+    <div style='height:60px;z-index:10000000; position:fixed;top:0px;right:0px;left:0px;background-color:green;vertical-align:baseline'>
+    {% comment %} <h3>Thread for {% if user == thread.first %}{{ other_user.username }}{% else %}{{ user.username }}{% endif %}</h3> {% endcomment %}
+    &nbsp;
+    {% if request.user == user %}
+        
+            <a href='{{ other_user.get_absolute_url }}'>
+                {% if other_user.profile.image %}
+                    <img src='{{ other_user.profile.image.url }}' style='border-radius:50%; height:50px;width:50px;vertical-align:baseline'/>
+                {% else %}
+                    <img src='{% static "img/no_image.png" %}' style='border-radius:50%; height:50px;width:50px;vertical-align:baseline' />
+                {% endif %}    
+            </a>
+            {% if other_user.shop %}
+                    <div class='float-right'>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            seller info
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">{{ other_user.shop.business_name }}</a>
+                            <a class="dropdown-item" href="#">0{{ other_user.profile.phone }}</a>
+                            <a class="dropdown-item" href="#">{{ other_user.shop.business_address }}</a>
+                            <a class="dropdown-item" href="#">{{ other_user.shop.shop_address }}</a>
+                        </div>
+                    </div>
+                    </div>
+            {% else %}
+                <em style='vertical-align:baseline;font-size:large'>{{ user.first_name }}</em>
+            {% endif %}
+
+    {% else %}    
+        <a href='{{ user.get_absolute_url }}'>
+            {% if user.profile.image %}
+                <img src='{{ user.profile.image.url }}' style='border-radius:50%; height:50px;width:50px;vertical-align:baseline'/>
+            {% else %}
+                <img src='{% static "img/no_image.png" %}' style='border-radius:50%; height:50px;width:50px;vertical-align:baseline' />
+            {% endif %}    
+        </a>
+    {% endif %}
+    </div>
+
+    <div class='chat'>
+        <section>
+            <ul id='chat-items'>
+                <br/><br/>
+                {% for chat in thread.chat_messages.all %}
+
+                    {% if chat.user == user %}
+                        <li class="seller">
+                            <div class="date">
+                                {{ chat.timestamp|timesince }} ago
+                            </div>
+                            <div class="message">
+                            <p>
+                                    {{ chat.message }}
+                            </p>
+                            </div>
+                        </li>
+                    {% else %}
+                            <li class="buyer">
+                            <div class="date">
+                                {{ chat.timestamp|timesince }}
+                            </div>
+                            <div class="message">
+                            <p>
+                                {{ chat.message }}
+                            </p>
+                            </div>
+                        </li>
+                    {% endif %}<br/>
+
+                {% endfor %}
+
+            </ul>
+           
+         
+
+<form id='form' method='post' action='.'> 
+    {% comment %} {{ form.as_p }}
+    <input type='hidden' id='myUsername' value='{{ user.username }}' />
+    {% csrf_token %}
+    <input type='submit' class='btn btn-primary'/> {% endcomment %}
+    <input type='hidden' id='myUsername' value='{{ user.username }}' />
+            <div class="type_msg">
+                <div class="input_msg_write">
+                    <textarea class="write_msg" placeholder="Type a message" cols='35' name='message' id='id_message'/></textarea>
+                    {% csrf_token %}
+                  <button type='submit' class="msg_send_btn" type="button"><i class="fa fa-location-arrow"></i></span></button>
+                </div>
+              </div>
+    
+</form><br/>
+ </section>    
+    </div>  
+
+{% endblock %}
+
+
+{% block domready %}
+
+    $('#id_message').focus();
+    var protocol = 'ws://'
+    var formData = $('#form');
+    var msgInput = $('#id_message');
+    var chatHolder = $('#chat-items');
+    var me = $('#myUsername').val()
+
+    if (window.location.protocol == 'https:') {
+        protocol = 'wss://'
+    }
+
+    var endpoint = protocol + window.location.host + window.location.pathname;
+
+    var socket = new WebSocket(endpoint)
+
+    socket.onmessage = function(e) {
+        console.log('message', e)
+        var chatMsg = JSON.parse(e.data)
+        var link = chatMsg.message
+        if (me == chatMsg.username) { 
+                if (chatMsg.message.startsWith('www'))
+                    chatHolder.append('<li class="seller">' +
+                    '<div class="date">' + 
+                            chatMsg.timestamp
+                    + '</div>' +
+                        '<div class="message">' +
+                            '<p>' + 
+                                '<a class="link">' + link + '</a>' 
+                            +  '</p>'
+                        + '</div>'
+                    + '</li>')
+                else if (chatMsg.message.startsWith('https'))
+                    chatHolder.append('<li class="seller">' +
+                    '<div class="date">' + 
+                            chatMsg.timestamp
+                    + '</div>' +
+                        '<div class="message">' +
+                            '<p>' + 
+                                '<a class="link">' + link + '</a>' 
+                            +  '</p>'
+                        + '</div>'
+                    + '</li>')       
+                else
+                    chatHolder.append('<li class="seller">' +
+                    '<div class="date">' + 
+                            chatMsg.timestamp
+                    + '</div>' +
+                        '<div class="message">' +
+                            '<p>' + 
+                                chatMsg.message 
+                            +  '</p>'
+                        + '</div>'
+                    + '</li>')    
+            
+        }
+        $('.link').attr('href', link)
+    }    
+
+    socket.onopen  = function(e) {
+        console.log('open', e)
+        formData.submit(function(event){
+            event.preventDefault();
+            var msgText = msgInput.val();
+            var finalData = {
+                'message':msgText
+            }
+            socket.send(JSON.stringify(finalData))
+            formData[0].reset()
+        })
+    }
+    socket.onclose  = function(e) {
+        console.log('close', e)
+    }
+    socket.onerror  = function(e) {
+        console.log('error', e) 
+    }
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %}Create Post{% endblock %}
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+    <script>
+    var main = function() {
+      $('#upload').on('submit', function(e){
+        e.preventDefault();
+        $(this).ajaxSubmit({
+          beforeSend:function(){
+            $('#prog').show();
+            $('#prog').attr('value', '0');
+          },
+          uploadProgress:function(event, position, total, percentComplete){
+            $('#prog').attr('value', percentComplete);
+          },
+          success:function(data) {
+            $('#here').html(data);
+          }
+        });
+      }); 
+
+    };
+
+    $(document).ready(main);
+    </script>
+{% endblock %}
+
+{% block content %}
+    <br/><br/>
+    {% if form.errors %}
+
+        {% for error in form.errors %}
+           Error: {{ error }} field
+        {% endfor %}
+
+    {% else %}
+    <main role="main" class="container-fluid">
+<div class="offset-lg-3 col-lg-6 col-md-12">
+  <div >
+
+    <form action="." method="post" enctype="multipart/form-data" id='upload'>
+      <div class="mb-4 text-center">
+      <img src="{% static 'img/favicon.png' %}" alt="" width="72" height="72"><br/>
+      <!--<h1 class="h3 mb-3 font-weight-bold text-black-100 shadow-lg">Add product</h1>--><br/>
+      <h3 class="h3 mb-3 font-weight-bold text-black-100 shadow-lg">Hey, {{ user.username }}</h3>
+    </div>
+      {% for field in form.visible_fields %}
+        <label id="field.id_for_label">{{ field.label }}</label>
+        {{ field|add_class:'form-control' }}
+        {% endfor %}
+
+        <br/>
+      <div class="text-center">
+          {% csrf_token %}
+      <button class="btn btn-dark btn-lg" type="submit">Create Post</button><br/><br/><br/>
+      <hr>
+
+
+      </div>
+        </form>
+        <progress id='prog' max='100' value='0' style='display:none;'></progress>
+        <div id='here'></div>
+</div>
+</div>
+</main>
+    {% endif %}
+
+{% endblock %}
