@@ -114,9 +114,9 @@ WSGI_APPLICATION = 'estate.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'transtanicDB',
+        'NAME': 'transtanicDb',
         'USER': 'transtanicuser',
-        'PASSWORD': 'completehuman',
+        'PASSWORD': '0completehuman0',
         'HOST': 'localhost',
         'PORT': '',
     }
