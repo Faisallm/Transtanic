@@ -101,14 +101,25 @@ WSGI_APPLICATION = 'estate.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME': 'estate',
+#             'USER': 'postgres',
+#             'PASSWORD': 'Faisal',
+#         }
+#     }
+
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'estate',
-            'USER': 'postgres',
-            'PASSWORD': 'Faisal',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'transtanicDB',
+        'USER': 'transtanicuser',
+        'PASSWORD': 'completehuman',
+        'HOST': 'localhost',
+        'PORT': '',
     }
+}
 
 
 
