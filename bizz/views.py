@@ -27,8 +27,9 @@ import numpy as np
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 # initializing
-aap = AspectAwarePreprocessor(300, 165)
+
 # connect to redis.
 r = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
 
@@ -83,20 +84,73 @@ def edit(request):
 @login_required
 def add_product(request, shop_id):
     shop = get_object_or_404(Shop, id=shop_id)
+    aap = AspectAwarePreprocessor(300, 165) 
 
     if request.method == 'POST':
         form = AddProductForm(data=request.POST, files=request.FILES)
 
         if form.is_valid():
-
             new_product = form.save(commit=False)
+
+            # if new_product.photo:
+            #     new_image = aap.preprocess(np.asarray(new_product.photo))
+            #     new_product.photo = np.fromarrays(new_image)
+
+            # if new_product.photo0:
+            #     new_product.photo0 = aap.preprocess(new_product.photo0)
+
+            # if new_product.photo1:
+            #     new_product.photo1 = aap.preprocess(new_product.photo1)
+
+            # if new_product.photo2:
+            #     new_product.photo2 = aap.preprocess(new_product.photo2)
+
+            # if new_product.photo3:
+            #     new_product.photo3 = aap.preprocess(new_product.photo3)
+
+            # if new_product.photo4:
+            #     new_product.photo4 = aap.preprocess(new_product.photo4)
+
+            # if new_product.photo5:
+            #     new_product.photo5 = aap.preprocess(new_product.photo5)
+
+            # if new_product.photo6:
+            #     new_product.photo6 = aap.preprocess(new_product.photo6)
+
+            # if new_product.photo7:
+            #     new_product.photo7 = aap.preprocess(new_product.photo7)
+
+            # if new_product.photo8:
+            #     new_product.photo8 = aap.preprocess(new_product.photo8)
+
+            # if new_product.photo9:
+            #     new_product.photo9 = aap.preprocess(new_product.photo9)
+
+            # if new_product.photo10:
+            #     new_product.photo10 = aap.preprocess(new_product.photo10)
+
+            # if new_product.photo11:
+            #     new_product.photo11 = aap.preprocess(new_product.photo11)
+
+            # if new_product.photo12:
+            #     new_product.photo12 = aap.preprocess(new_product.photo12)
+
+            # if new_product.photo13:
+            #     new_product.photo13 = aap.preprocess(new_product.photo13)
+
+            # if new_product.photo14:
+            #     new_product.photo14 = aap.preprocess(new_product.photo14)
+
+            # if new_product.photo15:
+            #     new_product.photo15 = aap.preprocess(new_product.photo15)
+            
             new_product.shop = shop 
             new_product.available = True # make the product available(because we are to filter available products only)
             new_product.save()  
             form.save_m2m()
             create_action(user=new_product.shop.owner, verb='', target=new_product)
 
-            messages.success(request, 'Product added successfully ;-)')
+            messages.success(request, 'Product added successfully,  ;-)')
 
             # Return to profile of user
             # return redirect(shop.owner.get_absolute_url())

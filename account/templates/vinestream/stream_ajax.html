@@ -19,43 +19,7 @@
                     <div class='col-md-6 mx-auto d-block' style='padding-left: 0px; padding-right:0px;'>
                         <div class='product-entry'>
                             <div class="card mb-4">
-              <div class="card card-header">
-             
-<span class='text-muted'>
-{% if not action.verb == 'post' %}
-    <a href='{{ target.shop.owner.get_absolute_url }}'><img src="{% if target.shop.owner.profile.image %}{{ target.shop.owner.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" style="width:30px; height:30px; border-radius:50%"></a>
-{% else %}
-     <a href='{{ user.get_absolute_url }}'><img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" style="width:30px; height:30px; border-radius:50%"></a>
-{% endif %}
-  &nbsp;{% comment %}{% if not action.verb == 'post' %}<a href='#'><i class="fa fa-check-circle "></i></a> {{ target.shop.business_name }}{% else %}@{{ user.username }}{% endif %}{% endcomment %}      {% if action.verb == 'recommended' %}<small>Re-broadcasted by <a href='{{ user.get_absolute_url }}'>{{ user.first_name }}</a></small>{% endif %}
-              {% comment %}{% if action.verb != 'recommended' %}<small><a href='{% url "account:farmcenter" "farmcenter" %}'>{{ user.shop.business_address }}</a></small>{% endif %}{% endcomment %}
-<!-- {% if not action.verb == 'post' %}
-{% if request.user != target.shop.owner %} 
-    <a href='#' data-id="{{ target.shop.owner.id }}" 
-    data-action="{% if request.user in target.shop.owner.followers.all %}un{% endif %}follow"
-    class='follow' id='followbutton_{{ action.id }}'>
-    {% if not request.user in target.shop.owner.followers.all  %}
-        <button class="btn btn-outline-primary btn-sm float-right">follow</button>
-    {% else %}
-        <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
-    {% endif %}  
-    </a>
-{% endif %}      
-{% else %}
-    <a href='#' data-id="{{ user.id }}" 
-    data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
-    class='follow' id='followbutton_{{ action.id }}'>
-    {% if not request.user in user.followers.all  %}
-        <button class="btn btn-outline-primary btn-sm float-right">follow</button>
-    {% else %}
-        <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
-    {% endif %}
-{% endif %} -->
-</a>
-</span>
-
-
-            </div>
+        
             {% if not action.verb == 'post' %}
             <a href='{{ target.get_absolute_url }}'>
             <!--{% if not target.video %}

@@ -23,41 +23,7 @@
 {% block content %}
 
 <main role="main" style='padding: 0px; margin:0px'>
-     <!--<div class="row">--> 
-     
-    <!-- {% if not request.user.is_authenticated %}
-    <div style='position:fixed;bottom:70px;left:20%;right:20%;z-index:10;background-color:lavender; padding:10px; border-radius:10%' class='float-center'>  
-          <i class='fa fa-heart' style='color:red'></i>stardaf is a video based product discovery tool. get access to uniquely curated contents from unique brands.
-        <br/>
-        <span class='mx-auto d-block'>
-        <a href='{% url "account:login" %}'>
-            <button type="button" class="btn btn-secondary btn-sm ">
-                login
-            </button>
-        </a>
-        <a href='{% url "account:register" %}'>
-            <button type="button" class="btn btn-secondary btn-sm ">
-                create account
-            </button>
-        </a>
-        </span>
-    </div>
-    {% endif %} -->
-     
-                    
-
-<hr/>
-<!-- <div class='one' style='padding:10px'>
-   
-    {% horizontal_scroll 9 %}
     
-</div> -->
-<hr/>
-<!-- <div class='one' style='padding: 7px'>
-    <a href='{% url "account:stream" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>trending</span></a>
-    <a href='{% url "account:farmcenter" "private" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>private</span></a>
-</div>     -->
-
                     <div id="streams">
                         {% include 'vinestream/stream_ajax.html' %}
                     </div>
