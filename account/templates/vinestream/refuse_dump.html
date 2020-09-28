@@ -147,4 +147,39 @@
         <a href='{% url "account:stream" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>trending</span></a>
         <a href='{% url "account:farmcenter" "private" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>private</span></a>
     </div>     -->
+
     
+
+    <h4 class="price-container text-muted">
+            <small>₦{{ product.price|intcomma }}</small>
+            <!--<small>*includes tax</small>-->
+          </h4>
+          <div class="container">
+            <div class="row">
+              <div class="col-sm">
+                <i class="fa fa-bed fa-2x"></i> Bedrooms: {{ product.bedrooms }}
+              </div>
+              <div class="col-sm">
+                <i class="fa fa-bath fa-2x"></i> Bathrooms: {{ product.bathrooms }}
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-sm">
+                <i class="fa fa-home fa-2x"></i> House Type: {{ product.house_type }}
+              </div>
+              <div class="col-sm">
+                <i class="fa fa-check fa-2x "></i> Status: {{ product.status }}
+              </div>
+            </div>
+          </div><br />
+          <div class="certified">
+
+            <h5>Address</h5>
+            {{ product.address|linebreaks }}
+
+            <h5>Description</h5>
+            <!-- <div style='width: 300px; word-wrap: break-word;'> -->
+            {{ product.description|linebreaks }}
+            <!-- </div> -->

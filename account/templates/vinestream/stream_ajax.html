@@ -458,7 +458,8 @@
                             <p class='card-text float-left'>
                                 <button type="button" class="btn btn-outlined-dart btn-sm float-right">₦{{ target.price|intcomma }}</button>
                             </p>
-                            <span class="float-right">{{ target.created|timesince }} ago</span>
+                            <!-- <span class="float-right">{{ target.created|timesince }} ago</span> -->
+                            
               
                          
 
@@ -506,6 +507,17 @@
                 </span>{% endif %} -->
                 
             </div>
+            <div class="card-footer text-muted">
+                <div style='width:100%'>
+                    <a href="tel: 0{{ target.shop.owner.profile.phone }}">
+                      <button type="button" class="btn btn-light" style='width:45%; float:left'>Kira/Call &nbsp;<i class='fa fa-phone'></i></button>
+                    </a>
+
+                    <a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=Ina Son Wannan Gidan./Am interested in this property.: www.transtanic.com/{{target.id}}">
+                      <button type="button" class="btn btn-success" style='width:45%; float:right'>Whatsapp &nbsp;<i class='fa fa-whatsapp'></i></button>
+                    </a>
+                </div>
+              </div>
               
           </div>
                         </div>

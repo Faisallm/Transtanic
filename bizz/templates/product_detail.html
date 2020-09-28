@@ -19,7 +19,7 @@
 <link rel='stylesheet' {% block style %}href="{% static 'css/comment.css' %}" {% endblock %}>
 
 {% block content %}
-<div style='position:fixed;right:25px;bottom:70px;z-index:10'>
+<!-- <div style='position:fixed;right:25px;bottom:70px;z-index:10'>
   <a
     href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=Am interested in this property: {{ product.name }}/{{product.id}}">
     <button class='btn btn-success' style='border-radius:50%'>
@@ -33,7 +33,7 @@
       <i class='fa fa-phone'></i>
     </button>
   </a>
-</div>
+</div> -->
 <!-- {% if not request.user.is_authenticated %}
     <div style='position:fixed;bottom:70px;left:20%;right:20%;z-index:10;background-color:lavender; padding:10px; border-radius:10%' class='float-center'>  
           <i class='fa fa-heart' style='color:red'></i>stardaf is a video based product discovery tool. get access to uniquely curated contents from unique brands.
@@ -340,45 +340,59 @@
               {% endfor %}<br />
 
               <hr>
-              <h4 class="price-container text-muted">
-                <small>₦{{ product.price|intcomma }}</small>
-                <!--<small>*includes tax</small>-->
-              </h4>
-              <div class="container">
-                <div class="row">
-                  <div class="col-sm">
-                    <i class="fa fa-bed fa-2x"></i> Bedrooms: {{ product.bedrooms }}
+
+
+              <p>
+                <hr />
+                <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                  aria-controls="collapseExample" style="font-size: 18px; letter-spacing: 1.5;">
+                  Bayanai/Description &nbsp;&nbsp;<i class="fa fa-arrow-down"></i>
+                </a>
+                <hr />
+              </p>
+
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <h4 class="price-container text-muted">
+                    <small>₦{{ product.price|intcomma }}</small>
+                    <!--<small>*includes tax</small>-->
+                  </h4>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-sm">
+                        <i class="fa fa-bed fa-2x"></i> Dakuna/Bedrooms: {{ product.bedrooms }}
+                      </div>
+                      <div class="col-sm">
+                        <i class="fa fa-bath fa-2x"></i> Bandaki/Bathrooms: {{ product.bathrooms }}
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-sm">
-                    <i class="fa fa-bath fa-2x"></i> Bathrooms: {{ product.bathrooms }}
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-sm">
+                        <i class="fa fa-home fa-2x"></i> Irin Gida/House Type: {{ product.house_type }}
+                      </div>
+                      <div class="col-sm">
+                        <i class="fa fa-check fa-2x "></i> Matsayi/Status: {{ product.status }}
+                      </div>
+                    </div>
+                  </div><br />
+                  <div class="certified">
+
+                    <h5>Adreshi/Address</h5>
+                    {{ product.address|linebreaks }}
+
+                    <h5>Bayani/Description</h5>
+                    <!-- <div style='width: 300px; word-wrap: break-word;'> -->
+                    {{ product.description|linebreaks }}
+                    <!-- </div> -->
                   </div>
                 </div>
-              </div>
-              <div class="container">
-                <div class="row">
-                  <div class="col-sm">
-                    <i class="fa fa-home fa-2x"></i> House Type: {{ product.house_type }}
-                  </div>
-                  <div class="col-sm">
-                    <i class="fa fa-check fa-2x "></i> Status: {{ product.status }}
-                  </div>
-                </div>
-              </div><br />
-              <div class="certified">
 
-                <h5>Address</h5>
-                {{ product.address|linebreaks }}
-
-                <h5>Description</h5>
-                <!-- <div style='width: 300px; word-wrap: break-word;'> -->
-                  {{ product.description|linebreaks }}
-                <!-- </div> -->
-                <a href='{{ product.shop.owner.get_absolute_url }}'>
-                  <i class='fa fa-map-marker'></i> <br />
               </div>
               <!-- <strong><h5>Product description</h5></strong>
                                     {{ product.description|linebreaks }} -->
-              <strong><span class='text-muted'>Similar Properties</span></strong><br /><br />
+              <strong><span class='text-muted'>Makamantan Gidaje/Similar Properties</span></strong><br /><br />
               {% for product in similar_products %}
               <a href='{{ product.get_absolute_url }}'>
                 {% if product.photo %}
@@ -395,6 +409,16 @@
               <button class='btn btn-danger btn-block'><a href="{% url 'bizz:delete' product.id %}">Delete</a></button>
               {% endif %}
               <br />
+              <div style='width: 100%; letter-spacing: 2.0; font-size: 20px;'>
+                <a href="tel: 0{{ product.shop.owner.profile.phone }}">
+                  <button type="button" class="btn btn-light btn-lg btn-block">
+                    Kira/Call &nbsp;&nbsp;&nbsp;<i class='fa fa-phone'></i>
+                  </button>
+                </a><br />
+                <a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=Ina Son Wannan Gidan../Am interested in this property..: www.transtanic.com/{{product.id}}">
+                  <button type="button" class="btn btn-success btn-lg btn-block">Whatsapp &nbsp;&nbsp;&nbsp;<i class='fa fa-whatsapp'></i></button>
+                </a>
+              </div>
               <!-- <span class="fa fa-2x"><h5>({{ product.comments.count }}) </h5></span>
                             Comment{{ product.comments.count|pluralize }}  {% if request.user.is_anonymous %}<small style="color:red"><a href='{% url 'account:register' %}'>Create account to comment</a></small> or
                             <small style='color:blue'><a href='{% url 'account:login' %}'>Login</a></small> to comment{% endif %}
